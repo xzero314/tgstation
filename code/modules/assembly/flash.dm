@@ -187,7 +187,7 @@
 
 	if(flash_result != FLASH_COMPLETED) //If the behavior was overwritten, we just skip the flashy stunny part and go with the override behavior instead
 		if(issilicon(flashed))
-			if(!istype(flashed, /mob/living/silicon/robot/model/syndicate) || flashed.is_blind())
+			if(flashed.is_blind())
 				var/flash_duration = rand(8,12) SECONDS
 				flashed.Paralyze(flash_duration)
 				flashed.set_temp_blindness_if_lower(flash_duration)
@@ -197,6 +197,7 @@
 					to_chat(flashed, "[src] overloads your sensors and computing!")
 			else
 				flashed.set_temp_blindness_if_lower( (rand(5,15) SECONDS))
+                flashed.apply_status_effect(/datum/status_effect/borg_slow) // applies the borg slow status effect to a borg when flashed
 				if(user)
 					user.visible_message(span_warning("[user] blinds [flashed] with the flash!"), span_danger("You blind [flashed] with the flash!"))
 				else
